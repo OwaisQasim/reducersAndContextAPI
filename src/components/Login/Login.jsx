@@ -10,7 +10,12 @@ const reducer = (state, action) => {
       value: action.val,
       isValid: action.val.includes('@')
     }
+
   }
+  if (action.type === 'USER_BLUR') {
+    return { value: state.value, isValid: state.value.includes('@') }
+  }
+  return { value: '', isvalid: false }
 
 }
 
@@ -19,7 +24,7 @@ const Login = (props) => {
   // const [emailIsValid, setEmailIsValid] = useState();
   const [emailState, despatchEmail] = useReducer(reducer, {
     value: '',
-    isValid: false
+    isValid: null
   })
   const [enteredPassword, setEnteredPassword] = useState('');
   const [passwordIsValid, setPasswordIsValid] = useState();
@@ -57,7 +62,8 @@ const Login = (props) => {
   };
 
   const validateEmailHandler = () => {
-    setEmailIsValid(emailState.value.includes('@'));
+    // setEmailIsValid(emailState.value.includes('@'));
+    despatchEmail({ type: 'USER_BLUR' })
   };
 
   const validatePasswordHandler = () => {
